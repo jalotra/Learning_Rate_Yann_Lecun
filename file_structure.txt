@@ -1,0 +1,15 @@
+
+
+// Language that I will be using : C 
+// Because its damn fast
+
+How do I think will be the best way to code this out
+// Taking inspiration from one of the best teachers in the world's source code : Joseph Readmon
+// What Sir Redmon did was to code everything in a src folder that made everything hectic for me to understand.
+
+
+// Using my image-classification git repo as a staring point
+
+// The best Folder-Structure I think will be :
+
+// To create separate modules for header-files and import them as a standalone
