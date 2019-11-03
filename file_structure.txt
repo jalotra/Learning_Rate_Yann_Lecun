@@ -9,7 +9,33 @@ How do I think will be the best way to code this out
 
 
 // Using my image-classification git repo as a staring point
-
 // The best Folder-Structure I think will be :
 
 // To create separate modules for header-files and import them as a standalone
+// LIKE-THIS
+1. A module that takes care of all the matrix methods --> Mostly Completed
+2. A module that takes care of the neural network modelling stuff, i.e definfition of a layer, how to run a model , calculate error
+3. A module that takes care of forward and backward propagation 
+4. A module that implements the algorithm of finding the eigen vector at each-layer of the the neural network defined 
+
+
+WHAT a layer must have 
+DEFINITION OF A LAYER
+struct Layer
+{
+	matrix in;
+	matrix out;
+	double alpha, gamma;
+	matrix G1; Gradient after the first propogation 
+	matrix G2; Gradient after the second propogation
+	matrix Weight; Very important because I have to update the weights with a new vector psi.	
+	ACTIVATION activation;
+};
+
+
+
+// Design choices 
+1. I will be testing the algorithm on MNIST data-set.
+2. The loss function taken is a cross-entropy loss because it works better with softmax output.
+3. Give user the power to define the number of layers.
+4. The activation functions that I will be writing out are LRelu and Relu only. 
