@@ -11,7 +11,7 @@ typedef struct
 {
 	int rows;
 	int cols;
-	double ** data;
+	double **data;
 }matrix;
 
 
@@ -20,7 +20,7 @@ matrix make_matrix(int rows, int cols);
 matrix copy_matrix(matrix originalMatrix);
 void print_matrix(matrix originalMatrix);
 void free_matrix(matrix m);
-matrix axpy_matrix(double a, matrix x, matrix y)
+matrix axpy_matrix(double a, matrix x, matrix y);
 
 
 

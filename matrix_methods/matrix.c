@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <math.h>
 
 
 // matrix defintions
@@ -12,11 +13,11 @@ matrix make_matrix(int rows, int cols)
 	matrix m;
 	m.cols = cols;
 	m.rows = rows;
-	m.data = calloc(m.rows, sizeof(* double));
+	m.data = (double **)calloc(m.rows, sizeof(double));
 	int i ;
 	for(i = 0; i < m.rows; i++)
 	{
-		m.data[i] = calloc(m.cols, sizeof(double));
+		m.data[i] = (double *)calloc(m.cols, sizeof(double));
 	}
 
 	return m;
@@ -25,14 +26,14 @@ matrix make_matrix(int rows, int cols)
 
 matrix copy_matrix(matrix originalMatrix)
 {
-	m = make_matrix(originalMatrix.rows, originalMatrix.cols);
+	matrix m = make_matrix(originalMatrix.rows, originalMatrix.cols);
 	// Copy the data matrix.
 	int i,j;
 	for(int i = 0; i < m.rows; i++)
 	{
 		for(int j =0; j < m.cols; j++)
 		{
-			m.data[i][j] = originalMatrix[i][j];
+			m.data[i][j] = originalMatrix.data[i][j];
 		}
 	}
 
@@ -43,8 +44,8 @@ void print_matrix(matrix originalMatrix)
 {
 	int i,j;
 
-	printf("The number of rows present are : %d \n", originalMatrix.rows)
-	printf("The number of cols present are : %d \n", originalMatrix.cols)
+	printf("The number of rows present are : %d \n", originalMatrix.rows);
+	printf("The number of cols present are : %d \n", originalMatrix.cols);
 
 	for(int i = 0; i < originalMatrix.rows ; i++)
 	{
@@ -52,6 +53,7 @@ void print_matrix(matrix originalMatrix)
 		{
 			printf("%f \t", originalMatrix.data[i][j]);
 		}
+		printf("\n");
 	}
 }
 
@@ -75,7 +77,7 @@ void free_matrix(matrix m)
 matrix axpy_matrix(double a, matrix x, matrix y)
 {
 	// axpy stands for a*x + y
-	matrix x = scale_matrix(a, x);
+	x = scale_matrix(a, x);
 	int i,j;
 	// Check if the # rows and #cols of both matrices match up
 	assert(x.cols == y.cols);
