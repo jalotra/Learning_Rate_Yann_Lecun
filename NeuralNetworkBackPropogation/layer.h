@@ -11,6 +11,7 @@ typedef struct{
 	matrix out;
 	matrix dw;            // Current weight gradient  
  	matrix w;             // CURRENT WEIGHTS
+ 	matrix v;             // PAST weights
 	ACTIVATION activation;
 
 	matrix G1;
