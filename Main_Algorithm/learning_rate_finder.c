@@ -67,7 +67,7 @@ void iterate_over(int iters, matrix psi, matrix gradient1, matrix gradient2)
 
 		// IF NORM OF PSI IS LESS THAN 10% ERROR THEN BREAK 
 		// WE HAVE GOT THE MAX EIGEN VALUE 
-		if((norm2 - norm1 / norm1) < 0.1)
+		if((norm2 - norm1) / norm1 < 0.1)
 		{
 			break;
 		} 
