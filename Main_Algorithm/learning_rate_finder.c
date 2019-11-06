@@ -1,4 +1,5 @@
 #include "../matrix_methods/matrix.h"
+#include "main_algo.h"
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -56,23 +57,20 @@ matrix running_average(matrix psi, matrix gradient1, matrix gradient2)
 
 
 // Number of iterations
-void iterate_over(int iters, matrix psi, matrix gradient1, matrix gradient2)
+void calculate_delta_norm(double &norm1, matrix psi, matrix gradient1, matrix gradient2)
 {
-	double norm1 = 0;
-	loop_for(i, iters)
-	{
-		psi = running_average(psi, gradient1, gradient2);
-		double norm2 = calculate_norm(psi);
-		printf("%f The norm of psi for this layer is : \n",calculate_norm(psi));
+	psi = running_average(psi, gradient1, gradient2);
+	double norm2 = calculate_norm(psi);
+	printf("%f The norm of psi for this layer is : \n",calculate_norm(psi));
 
-		// IF NORM OF PSI IS LESS THAN 10% ERROR THEN BREAK 
-		// WE HAVE GOT THE MAX EIGEN VALUE 
-		if((norm2 - norm1) / norm1 < 0.1)
-		{
-			break;
-		} 
-		norm1 = norm2;
-	}
+	// IF NORM OF PSI IS LESS THAN 10% ERROR THEN BREAK 
+	// WE HAVE GOT THE MAX EIGEN VALUE 
+	if((norm2 - norm1) / norm1 < 0.1)
+	{
+		break;
+	} 
+	norm1 = norm2;
+	
 }
 
 
@@ -80,7 +78,22 @@ void iterate_over(int iters, matrix psi, matrix gradient1, matrix gradient2)
 
 int main(int argc, char const *argv[])
 {
-	matrix m = make_matrix(3,3);
-	print_matrix(m);
+	// matrix m = make_matrix(3,3);
+	// print_matrix(m);
+	// LETS RUN THE MODEL
+	int iters;
+	scanf("%d", &iters);
+
+	for(int i = 0; i < iters; i++)
+	{
+		calculate_gradient1()
+	}
+
+
+
+
+
+
+
 	return 0;
 }
