@@ -1,5 +1,6 @@
 #include "layer.h"
 #include "matrix_methods/matrix.h"
+#include "main_algo.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
