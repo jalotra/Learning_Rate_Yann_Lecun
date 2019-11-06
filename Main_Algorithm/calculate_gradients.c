@@ -52,12 +52,13 @@ void calculate_gradient2(model M, matrix X, matrix delta, double s)
 	// Of all the layers by some psi
 	for(int i = 0; i < M.n; i++)
 	{
+		// Save curent weights in l->v for use later
+		free_matrix(M.layers+i-> v);
+		l->v = l->w;
+
 		// FIrst free the matrix l->w
 		free_matrix(M.layers+i->w);
 
-		// Save the Past weights
-		free_matrix(M.layers+i-> v);
-		l->v = l->w;
 
 		l->w = scale_matrix(alpha, create_psi(l->w.rows, l->w.cols, s))
 	}
