@@ -14,7 +14,7 @@
 // CALCULATE THE DERIVATIVE WRT WEIGHTS AND MAKE THIS MATRIX AS G1
 
 // How to calculate the matrix G2?
-// 1. IMPORTANT UPDATE THE WEIGHTS OF EVERY LAYER BY SOME PSI1 
+// 1. UPDATE THE WEIGHTS OF EVERY LAYER BY SOME PSI1 
 // 2. THEN FORWARD PROPOGATE THROUGH THE MODEL 
 // 3. ALSO BACKPROPOGATE BACKWARDS 
 // 4. SAVE THE GRADIENT MATRIX CALCULATED THIS TIME IN A NEW MATRIX G2
@@ -23,10 +23,13 @@
 
 
 // Calculates the G1 matrix
-void calculate_gradient1(model M, matrix X, matrix delta) 
+void calculate_gradient1(model M, matrix X, data b) 
 {
 	// Forward Propogate through the model
-	forward_model(M, X);
+	matrix X = forward_model(M, X);
+
+	// Lets calculate the loss at the last layer
+	matrix delta = Last_Layer_Loss_Cross_Entropy(b, p); // partial derivative of loss dL/dy
 	// Now backpropogate Backwards
 	backward_model(M, delta);
 
@@ -46,25 +49,29 @@ void calculate_gradient1(model M, matrix X, matrix delta)
 }
 
 //calculates the G2 matrix
-void calculate_gradient2(model M, matrix X, matrix delta, double s)
+void calculate_gradient2(model M, matrix X, data b, matrix psi)
 {
 	// Now the task is first to update the weights 
 	// Of all the layers by some psi
 	for(int i = 0; i < M.n; i++)
 	{
 		// Save curent weights in l->v for use later
-		free_matrix(M.layers+i-> v);
+		free_matrix(M.layers+i->v);
 		l->v = l->w;
 
 		// FIrst free the matrix l->w
 		free_matrix(M.layers+i->w);
 
 
-		l->w = scale_matrix(alpha, create_psi(l->w.rows, l->w.cols, s))
+		l->w = scale_matrix(alpha, psi)
 	}
 
 	// Now Forward Propogate 
 	forward_model(M, X);
+
+	// Calculate  the loss at the last layer
+	matrix delta = Last_Layer_Loss_Cross_Entropy(b, p); // partial derivative of loss dL/dy
+
 	// BackPropogate the Loss
 	backward_model(M, delta);
 
