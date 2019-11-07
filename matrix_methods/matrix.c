@@ -13,9 +13,10 @@ matrix make_matrix(int rows, int cols)
 	matrix m;
 	m.cols = cols;
 	m.rows = rows;
+	m.shallow = 0;
 	m.data = (double **)calloc(m.rows, sizeof(double));
 	int i ;
-	for(i = 0; i < m.rows; i++)
+	if(!m.shallow)for(i = 0; i < m.rows; i++)
 	{
 		m.data[i] = (double *)calloc(m.cols, sizeof(double));
 	}

@@ -11,6 +11,7 @@ typedef struct
 {
 	int rows;
 	int cols;
+	int shallow;
 	double **data;
 }matrix;
 
