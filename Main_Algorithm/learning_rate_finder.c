@@ -1,4 +1,6 @@
 #include "../matrix_methods/matrix.h"
+#include "NeuralNetworkBackPropogation/layer.h"
+#include "input_data/data.h"
 #include "main_algo.h"
 #include <stdio.h>
 #include <assert.h>
@@ -78,22 +80,51 @@ void calculate_delta_norm(double &norm1, matrix psi, matrix gradient1, matrix gr
 
 int main(int argc, char const *argv[])
 {
-	// matrix m = make_matrix(3,3);
-	// print_matrix(m);
-	// LETS RUN THE MODEL
-	int iters;
-	scanf("%d", &iters);
+	// Lets run everything that I have wrote here
+	// FUCK I DIDN'T WROTE UNIT-TESTS
+	int iters = 500;
 
-	for(int i = 0; i < iters; i++)
+	void RUN_ALGORITHM(model m, data d, int batch)
 	{
-		calculate_gradient1()
-	}
+		for(int i = 0; i < iters; i++)
+		{
+			data b = random_batch(d, batch);
+
+			// Lets calculate the gradients 
+			// G1
+			calculate_gradient1(m, b.X, b);
+
+			// G2
+			const s = 0.2;
+
+			// Create the matrix psi
+			matrix psi = create_psi(b.X.rows, b.y.cols, s);
+
+			calculate_gradient2(m, b.X, b, s, psi);
+
+			// Update Psi
+			// Free psi first
+			free_matrix(psi);
+
+
+			// WRITE FROM HERE 
+
+
+			
+			// psi = matrix running_average(psi, matrix gradient1, matrix gradient2)
+			
+
+
+			// Lets print the norms for different layers
+			for(int i = 0; i < m.n; i++)
+			{
+				printf("NORM Layer %d IS %f", m.)
+			}
 
 
 
+		}
+	} 
 
 
-
-
-	return 0;
 }
