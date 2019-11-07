@@ -207,10 +207,7 @@ layer make_layer(int input, int output, ACTIVATION activation)
 }
 
 
-
-// LETS CODE OUT THE MOST IMPORTANT PART OF THE WHOLE THING
-// IT IS CALCULATING THE GRADIENT G1 AFTER 1ST FORWARD ITERAION
-// G2 AFTER SECOND ITERARION
+// RUNS MODEL FORWARD
 matrix forward_model(model M, matrix X)
 {
 	int i;
@@ -223,17 +220,46 @@ matrix forward_model(model M, matrix X)
 	return X;
 }
 
-matrix backward_model(model M, matrix delta)
+// RUNS MODEL BACKWARDS
+void backward_model(model M, matrix delta)
 {
 	// delta -> the last layer loss
-	int i;
-	for(i = M.n-1; i >=0; i--)
-	{
-		delta = backward_layer(M.layer+i, delta);
-	}
-
-	return delta;
+	matrix d = copy_matrix(delta);
+    int i;
+    for(i = m.n-1; i >= 0; --i){
+        matrix prev = backward_layer(m.layers + i, d);
+        free_matrix(d);
+        d = prev;
+    }
+    free_matrix(d);
 }
+
+
+// CROSS ENTROPY LOSS
+// Calculate the cross-entropy loss for a set of predictions
+// matrix y: the correct values
+// matrix p: the predictions
+// returns: average cross-entropy loss over data points, 1/n Σ(-ylog(p))
+double cross_entropy_loss(matrix y, matrix p)
+{
+    int i, j;
+    double sum = 0;
+    for(i = 0; i < y.rows; ++i){
+        for(j = 0; j < y.cols; ++j){
+            sum += -y.data[i][j]*log(p.data[i][j]);
+        }
+    }
+    return sum/y.rows;
+}
+
+
+matrix Last_Layer_Loss_Cross_Entropy(data b, matrix p)
+{
+    matrix dL = axpy_matrix(-1, p, b.y);
+    return dL;
+}
+
+
 
 
 
