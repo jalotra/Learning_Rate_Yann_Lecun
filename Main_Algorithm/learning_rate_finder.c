@@ -1,6 +1,6 @@
 #include "../matrix_methods/matrix.h"
-#include "NeuralNetworkBackPropogation/layer.h"
-#include "input_data/data.h"
+#include "../NeuralNetworkBackPropogation/layer.h"
+#include "../input_data/data.h"
 #include "main_algo.h"
 #include <stdio.h>
 #include <assert.h>
@@ -84,12 +84,14 @@ void calculate_delta_norm(double &norm1, matrix psi, matrix gradient1, matrix gr
 
 	// IF NORM OF PSI IS LESS THAN 10% ERROR THEN BREAK 
 	// WE HAVE GOT THE MAX EIGEN VALUE 
+	printf("LAYER LEARNING RATE: %f", norm1)
 	if((norm2 - norm1) / norm1 < 0.1)
 	{
-		break;
+		printf("MAX EIGEN VALUE REACHED %f", norm1)
+		return;
+
 	} 
 	norm1 = norm2;
-	
 }
 
 
