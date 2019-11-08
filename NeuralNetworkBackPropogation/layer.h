@@ -35,7 +35,7 @@ typedef struct
 	int n;
 	layer *layers;      // A pointer to all the layers that are represented by an array
 	
-};
+}model;
 
 
 
