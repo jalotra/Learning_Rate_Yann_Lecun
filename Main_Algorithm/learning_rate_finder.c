@@ -38,6 +38,23 @@ matrix create_psi(int rows, int cols, double s)
 	return random_matrix(rows, cols, s);
 }
 
+// Normalise a Matrix Psi
+matrix normalise_psi(matrix psi)
+{
+	// Calculate the norm 
+	double current_norm = calculate_norm(psi);
+
+	for(int i = 0; i < psi.rows; ++i)
+	{
+		for(int col = 0; col < psi.cols; col++)
+		{
+			psi.data[i][j] /= current_norm;
+		}
+	}
+	// Finally Return the PSI Matrix
+	return psi;
+}
+
 
 // Calculates the running average of the vector psi
 matrix running_average(matrix psi, matrix gradient1, matrix gradient2)
