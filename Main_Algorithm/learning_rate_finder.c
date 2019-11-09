@@ -75,9 +75,8 @@ matrix running_average(matrix psi, matrix gradient1, matrix gradient2)
 
 
 // Number of iterations
-int calculate_delta_norm(double norm1, matrix psi, matrix gradient1, matrix gradient2)
+int calculate_delta_norm(double norm1, matrix psi)
 {
-	psi = running_average(psi, gradient1, gradient2);
 	double norm2 = calculate_norm(psi);
 	printf("%f The norm of psi for this layer is : \n",calculate_norm(psi));
 
