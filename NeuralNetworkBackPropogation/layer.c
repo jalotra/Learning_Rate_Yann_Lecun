@@ -253,7 +253,8 @@ double cross_entropy_loss(matrix y, matrix p)
     return sum/y.rows;
 }
 
-
+// P stands for the predicted output of the model
+// b.y stands for the corresponding labels.
 matrix Last_Layer_Loss_Cross_Entropy(data b, matrix p)
 {
     matrix dL = axpy_matrix(-1, p, b.y);
