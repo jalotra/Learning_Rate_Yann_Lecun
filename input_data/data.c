@@ -4,15 +4,8 @@
 #include <limits.h>
 #include "../src/image.h"
 #include "../matrix_methods/matrix.h"
+#include "data.h"
 #include "list.h"
-// #include "data.h"
-
-typedef struct
-{   
-    matrix X;
-    matrix y;
-
-}data;
 
 data random_batch(data d, int n)
 {
@@ -94,7 +87,7 @@ data load_classification_data(char *images, char *label_file, int bias)
 }
 
 
-char *fgetlines(FILE *fp)
+char *fgetl(FILE *fp)
 {
     if(feof(fp)) return 0;
     size_t size = 512;
@@ -130,3 +123,4 @@ void free_data(data d)
     free_matrix(d.X);
     free_matrix(d.y);
 }
+
