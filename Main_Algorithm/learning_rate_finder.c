@@ -12,8 +12,7 @@
 
 // LETS START WITH THE ALGORITHM
 // GLOBAL VARIABLES
-double alpha = 0.01;
-double gammaa = 0.01;
+// DEFINED IN MAIN_ALGO.H
 
 // Returns the L2 norm
 double calculate_norm(matrix x)
@@ -44,11 +43,11 @@ matrix normalise_psi(matrix psi)
 	// Calculate the norm 
 	double current_norm = calculate_norm(psi);
 
-	for(int i = 0; i < psi.rows; ++i)
+	for(int row = 0; row < psi.rows; ++row)
 	{
 		for(int col = 0; col < psi.cols; col++)
 		{
-			psi.data[i][j] /= current_norm;
+			psi.data[row][col] /= current_norm;
 		}
 	}
 	// Finally Return the PSI Matrix
@@ -59,15 +58,15 @@ matrix normalise_psi(matrix psi)
 // Calculates the running average of the vector psi
 matrix running_average(matrix psi, matrix gradient1, matrix gradient2)
 {
-	// Scale with 1 - gammaa
-	psi = scale_matrix((1.0 - gammaa), psi);
+	// Scale with 1 - const2_gamma
+	psi = scale_matrix((1.0 - const2_gamma), psi);
 
 	// change g1 to be the differnece in the gradients 
 	gradient1 = axpy_matrix(-1, gradient1, gradient2);
 
-	// Scale g1 with gammaa/alpha
-	// assert(gammaa/alpha != nan);
-	gradient1 = scale_matrix(gammaa/alpha, gradient1);
+	// Scale g1 with const2_gamma/const1_alpha
+	// assert(const2_gamma/const1_alpha != nan);
+	gradient1 = scale_matrix(const2_gamma/const1_alpha, gradient1);
 
 	// add psi and gradient
 	return axpy_matrix(1, psi, gradient1); 
@@ -76,7 +75,7 @@ matrix running_average(matrix psi, matrix gradient1, matrix gradient2)
 
 
 // Number of iterations
-void calculate_delta_norm(double &norm1, matrix psi, matrix gradient1, matrix gradient2)
+int calculate_delta_norm(double norm1, matrix psi, matrix gradient1, matrix gradient2)
 {
 	psi = running_average(psi, gradient1, gradient2);
 	double norm2 = calculate_norm(psi);
@@ -84,66 +83,69 @@ void calculate_delta_norm(double &norm1, matrix psi, matrix gradient1, matrix gr
 
 	// IF NORM OF PSI IS LESS THAN 10% ERROR THEN BREAK 
 	// WE HAVE GOT THE MAX EIGEN VALUE 
-	printf("LAYER LEARNING RATE: %f", norm1)
+	printf("LAYER LEARNING RATE: %f", norm1);
 	if((norm2 - norm1) / norm1 < 0.1)
 	{
-		printf("MAX EIGEN VALUE REACHED %f", norm1)
-		return;
+		printf("MAX EIGEN VALUE REACHED %f", norm1);
+		return norm1;
 
 	} 
 	norm1 = norm2;
+
+
+	return norm1;
 }
 
 
 
 
-int main(int argc, char const *argv[])
-{
-	// Lets run everything that I have wrote here
-	// FUCK I DIDN'T WROTE UNIT-TESTS
-	int iters = 500;
+// int main(int argc, char const *argv[])
+// {
+// 	// Lets run everything that I have wrote here
+// 	// FUCK I DIDN'T WROTE UNIT-TESTS
+// 	int iters = 500;
 
-	void RUN_ALGORITHM(model m, data d, int batch)
-	{
-		for(int i = 0; i < iters; i++)
-		{
-			data b = random_batch(d, batch);
+// 	void RUN_ALGORITHM(model m, data d, int batch)
+// 	{
+// 		for(int i = 0; i < iters; i++)
+// 		{
+// 			data b = random_batch(d, batch);
 
-			// Lets calculate the gradients 
-			// G1
-			calculate_gradient1(m, b.X, b);
+// 			// Lets calculate the gradients 
+// 			// G1
+// 			calculate_gradient1(m, b.X, b);
 
-			// G2
-			const s = 0.2;
+// 			// G2
+// 			const s = 0.2;
 
-			// Create the matrix psi
-			matrix psi = create_psi(b.X.rows, b.y.cols, s);
+// 			// Create the matrix psi
+// 			matrix psi = create_psi(b.X.rows, b.y.cols, s);
 
-			calculate_gradient2(m, b.X, b, s, psi);
+// 			calculate_gradient2(m, b.X, b, psi);
 
-			// Update Psi
-			// Free psi first
-			free_matrix(psi);
+// 			// Update Psi
+// 			// Free psi first
+// 			free_matrix(psi);
 
 
-			// WRITE FROM HERE 
+// 			// WRITE FROM HERE 
 
 
 			
-			// psi = matrix running_average(psi, matrix gradient1, matrix gradient2)
+// 			// psi = matrix running_average(psi, matrix gradient1, matrix gradient2)
 			
 
 
-			// Lets print the norms for different layers
-			for(int i = 0; i < m.n; i++)
-			{
-				printf("NORM Layer %d IS %f", m.)
-			}
+// 			// Lets print the norms for different layers
+// 			for(int i = 0; i < m.n; i++)
+// 			{
+// 				printf("NORM Layer %d IS %f", m.)
+// 			}
 
 
 
-		}
-	} 
+// 		}
+// 	} 
 
 
-}
+// }

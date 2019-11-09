@@ -1,5 +1,8 @@
-#include "matrix_methods/matrix.h"
-#include "NeuralNetworkBackPropogation/layer.h"
+#include "../matrix_methods/matrix.h"
+#include "../NeuralNetworkBackPropogation/layer.h"
+// Include the data header file
+#include "../input_data/data.h"
+#include "main_algo.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -21,15 +24,17 @@
 // THE LAST TASK STILL REMAINS AND THAT IS TO MAKE SURE THAT AFTER THIS WE CHANGE THE WEIGHTS 
 // TO THEIR ORIGINAL VALUE.    
 
+const double const1_alpha = 0.01;
+const double const2_gamma = 0.01;
 
 // Calculates the G1 matrix
 void calculate_gradient1(model M, matrix X, data b) 
 {
 	// Forward Propogate through the model
-	matrix X = forward_model(M, X);
+	matrix output = forward_model(M, X);
 
 	// Lets calculate the loss at the last layer
-	matrix delta = Last_Layer_Loss_Cross_Entropy(b, p); // partial derivative of loss dL/dy
+	matrix delta = Last_Layer_Loss_Cross_Entropy(b, output); // partial derivative of loss dL/dy
 	// Now backpropogate Backwards
 	backward_model(M, delta);
 
@@ -40,9 +45,12 @@ void calculate_gradient1(model M, matrix X, data b)
 	for(int i = 0; i < M.n; i++)
 	{
 		// Free the matrix G1 first
-		free_matrix(l->G1);
-		l->G1 = l->dw;
+		free_matrix((M.layers+i)->G1);
+		(M.layers+i)->G1 = (M.layers+i)->dw;
 	}
+
+	// Free the output matrxix
+	free_matrix(output);
 
 	return;
 
@@ -56,21 +64,21 @@ void calculate_gradient2(model M, matrix X, data b, matrix psi)
 	for(int i = 0; i < M.n; i++)
 	{
 		// Save curent weights in l->v for use later
-		free_matrix(M.layers+i->v);
-		l->v = l->w;
+		free_matrix((M.layers+i)->v);
+		(M.layers+i)->v = (M.layers+i)->w;
 
 		// FIrst free the matrix l->w
-		free_matrix(M.layers+i->w);
+		free_matrix((M.layers+i)->w);
 
 
-		l->w = scale_matrix(alpha, psi)
+		(M.layers+i)->w = scale_matrix(const1_alpha, normalise_psi(psi));
 	}
 
 	// Now Forward Propogate 
-	forward_model(M, X);
+	matrix output = forward_model(M, X);
 
 	// Calculate  the loss at the last layer
-	matrix delta = Last_Layer_Loss_Cross_Entropy(b, p); // partial derivative of loss dL/dy
+	matrix delta = Last_Layer_Loss_Cross_Entropy(b, output); // partial derivative of loss dL/dy
 
 	// BackPropogate the Loss
 	backward_model(M, delta);
@@ -79,12 +87,19 @@ void calculate_gradient2(model M, matrix X, data b, matrix psi)
 	for(int i = 0; i < M.n; i++)
 	{
 		// Free the matrix G2
-		free_matrix(G2);
-		l->G2 = l->dw;
+		free_matrix((M.layers+i)->G2);
+		(M.layers+i)->G2 = (M.layers+i)->dw;
 	}
 
 	// Change the current weights with past weights
-	l->w = l->v;
+	for(int i = 0; i < M.n; i++)
+	{
+		(M.layers+i)->w = (M.layers+i)->v;
+	}
+	// l->w = l->v;
+
+	// FRee the output matrix
+	free_matrix(output);
 
 	return;
 }

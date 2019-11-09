@@ -1,12 +1,14 @@
 
-OPENCV=0
+# OPENCV=0
 OPENMP=0
 DEBUG=0
-
-OBJ=load_image.o process_image.o args.o 
+	
+# All the objects to be made
+OBJ=load_image.o process_image.o args.o data.o list.o calculate_gradients.o learning_rate_finder.o \
+		matrix.o layer.o
 EXOBJ=test.o
 
-VPATH=./src/:./
+VPATH=./src/ ./input_data ./Main_Algorithm ./matrix_methods ./NeuralNetworkBackPropogation : ./	
 SLIB=libuwimg.so
 ALIB=libuwimg.a
 EXEC=uwimg
@@ -31,12 +33,12 @@ endif
 
 CFLAGS+=$(OPTS)
 
-ifeq ($(OPENCV), 1) 
-COMMON+= -DOPENCV
-CFLAGS+= -DOPENCV
-LDFLAGS+= `pkg-config --libs opencv` 
-COMMON+= `pkg-config --cflags opencv` 
-endif
+# ifeq ($(OPENCV), 1) 
+# COMMON+= -DOPENCV
+# CFLAGS+= -DOPENCV
+# LDFLAGS+= `pkg-config --libs opencv` 
+# COMMON+= `pkg-config --cflags opencv` 
+# endif
 
 EXOBJS = $(addprefix $(OBJDIR), $(EXOBJ))
 OBJS = $(addprefix $(OBJDIR), $(OBJ))

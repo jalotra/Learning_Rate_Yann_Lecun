@@ -30,9 +30,9 @@ matrix copy_matrix(matrix originalMatrix)
 	matrix m = make_matrix(originalMatrix.rows, originalMatrix.cols);
 	// Copy the data matrix.
 	int i,j;
-	for(int i = 0; i < m.rows; i++)
+	for(i = 0; i < m.rows; i++)
 	{
-		for(int j =0; j < m.cols; j++)
+		for(j =0; j < m.cols; j++)
 		{
 			m.data[i][j] = originalMatrix.data[i][j];
 		}
@@ -48,9 +48,9 @@ void print_matrix(matrix originalMatrix)
 	printf("The number of rows present are : %d \n", originalMatrix.rows);
 	printf("The number of cols present are : %d \n", originalMatrix.cols);
 
-	for(int i = 0; i < originalMatrix.rows ; i++)
+	for(i = 0; i < originalMatrix.rows ; i++)
 	{
-		for(int j = 0; j < originalMatrix.cols; j++)
+		for(j = 0; j < originalMatrix.cols; j++)
 		{
 			printf("%f \t", originalMatrix.data[i][j]);
 		}
@@ -65,7 +65,7 @@ void free_matrix(matrix m)
 	int i;
 	if(m.data)
 	{
-		for(int i = 0; i < m.rows; i++)
+		for(i = 0; i < m.rows; i++)
 		{
 			free(m.data[i]);
 		}
@@ -164,6 +164,8 @@ matrix matrix_elmult_matrix(matrix a, matrix b)
 			a.data[i][j] *= b.data[i][j]; 
 		}
 	}
+
+	return a;
 }
 
 matrix transpose_matrix(matrix x)
@@ -179,6 +181,8 @@ matrix transpose_matrix(matrix x)
 			m.data[i][j] = x.data[j][i];  
 		}
 	} 
+
+	return m;
 }
 
 // Random Methods that I am copying from Joseph Redmon

@@ -1,9 +1,10 @@
 #include "layer.h"
-#include "matrix_methods/matrix.h"
-#include "main_algo.h"
+#include "../matrix_methods/matrix.h"
+#include "../Main_Algorithm/main_algo.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <assert.h>
 
 const double LRELU_CONST = 0.1;
 
@@ -16,11 +17,12 @@ const double LRELU_CONST = 0.1;
 void activate_matrix(matrix x, ACTIVATION a)
 {
 	// DEFINE A VARIBALE FOR SOFTMAX 
-	if(a == SOFTMAX) double sum = 0;
+	double sum = 0;
 	// Define RELU activation Function
-	for(int i = 0; i < x.rows; i++)
+	int i,j;
+	for(i = 0; i < x.rows; i++)
 	{
-		for(int j = 0; j < x.cols; j++)
+		for(j = 0; j < x.cols; j++)
 		{
 			double * value = &x.data[i][j];
 
@@ -60,8 +62,7 @@ void activate_matrix(matrix x, ACTIVATION a)
 		}	
 	}
 
-	// Free the value pointer
-	free(value);
+	
 } 
 
 
@@ -90,27 +91,27 @@ void gradient_matrix(matrix m, matrix delta, ACTIVATION a)
 				// TO avoid the numerical instabilisation
 				// We combine both these steps
 				            	// Check this link : https://math.stackexchange.com/questions/945871/derivative-of-softmax-loss-function?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-				d.data[i][j] *= 1;
+				delta.data[i][j] *= 1;
 			}
 			if(a == RELU)
 			{
 				if(*value < 0)
 				{
-					d.data[i][j] = 0;
+					delta.data[i][j] = 0;
 				}
 			}
 			if(a == LRELU)
 			{
 				if(*value < 0)
 				{
-					d.data[i][j] *=  LRELU_CONST;
+					delta.data[i][j] *=  LRELU_CONST;
 				}
 			}
 		}
 	}
 
-	// FREE the value pointer
-	free(value);
+	// // FREE the value pointer
+	// free(value);
 }
 
 
@@ -119,7 +120,7 @@ void gradient_matrix(matrix m, matrix delta, ACTIVATION a)
 // layer *l : Pointer to the layer
 // matrix in : Input to the layer 
 // return : the output from the layer
-void forward_layer(ayer *l, matrix in)
+matrix forward_layer(layer *l, matrix in)
 {
 	l->in = in;
 
@@ -153,7 +154,7 @@ matrix backward_layer(layer *l, matrix delta)
          // = dL/dy * f'(xw)
 
 	// The output of the current layer is already present in the l->out variable. 
-	gradient_matrix(l->out, l->activation, delta);
+	gradient_matrix(l->out, delta, l->activation);
 
 
 
@@ -211,7 +212,7 @@ layer make_layer(int input, int output, ACTIVATION activation)
 matrix forward_model(model M, matrix X)
 {
 	int i;
-	for(int i = 0; i < M.n; i++)
+	for(i = 0; i < M.n; i++)
 	{
 		X = forward_layer(M.layers+i, X);
 	}
@@ -226,8 +227,8 @@ void backward_model(model M, matrix delta)
 	// delta -> the last layer loss
 	matrix d = copy_matrix(delta);
     int i;
-    for(i = m.n-1; i >= 0; --i){
-        matrix prev = backward_layer(m.layers + i, d);
+    for(i = M.n-1; i >= 0; --i){
+        matrix prev = backward_layer(M.layers + i, d);
         free_matrix(d);
         d = prev;
     }

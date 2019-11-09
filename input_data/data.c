@@ -2,10 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include "src/image.h"
-#include "matrix_methods/matrix.h"
+#include "../src/image.h"
+#include "../matrix_methods/matrix.h"
 #include "list.h"
-#include "data.h"
+// #include "data.h"
+
+typedef struct
+{   
+    matrix X;
+    matrix y;
+
+}data;
 
 data random_batch(data d, int n)
 {
@@ -87,7 +94,7 @@ data load_classification_data(char *images, char *label_file, int bias)
 }
 
 
-char *fgetl(FILE *fp)
+char *fgetlines(FILE *fp)
 {
     if(feof(fp)) return 0;
     size_t size = 512;

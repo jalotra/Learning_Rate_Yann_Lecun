@@ -3,6 +3,17 @@
 
 #ifndef LAYER_H
 #define LAYER_H
+#include "../input_data/data.h"
+
+
+// LETS DECLARES THE DIFFERENT ACTIVATION FUNCTIONS THAT I WILL BE IMPLEMENTING
+// I HAVE THOUGHT OF IMPLEMENTING TWO ACTIVATION FUNCTIONS
+// 1. RELU
+// 2. LRELU
+
+typedef enum {
+	RELU, LRELU, SOFTMAX
+}ACTIVATION ;
 
 
 // A LAYER WILL CONTAINS THESE MANY DATA MEMBERS 
@@ -19,15 +30,6 @@ typedef struct{
 } layer;
 
 
-// LETS DECLARES THE DIFFERENT ACTIVATION FUNCTIONS THAT I WILL BE IMPLEMENTING
-// I HAVE THOUGHT OF IMPLEMENTING TWO ACTIVATION FUNCTIONS
-// 1. RELU
-// 2. LRELU
-
-typedef enum {
-	RELU, LRELU
-}ACTIVATION ;
-
 
 // LETS DEFINE THE MODEL
 typedef struct 
@@ -38,25 +40,16 @@ typedef struct
 }model;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Lets declare all the methods 
+void activate_matrix(matrix x, ACTIVATION a);
+void gradient_matrix(matrix m, matrix delta, ACTIVATION a);
+matrix  forward_layer(layer *l, matrix in);
+matrix backward_layer(layer *l, matrix delta);
+layer make_layer(int input, int output, ACTIVATION activation);
+matrix forward_model(model M, matrix X);
+void backward_model(model M, matrix delta);
+double cross_entropy_loss(matrix y, matrix p);
+matrix Last_Layer_Loss_Cross_Entropy(data b, matrix p);
 
 
 #endif
