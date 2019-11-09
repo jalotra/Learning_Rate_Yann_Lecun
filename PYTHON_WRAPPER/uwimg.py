@@ -162,6 +162,11 @@ print_matrix = lib.print_matrix
 print_matrix.argtypes = [MATRIX] 
 print_matrix.restype = None
 
+# Getting a Random data batch
+random_batch = lib.random_batch
+random_batch.argtypes = [DATA, c_int]
+random_batch.restype = DATA
+
 if __name__ == "__main__":
     # create_test_photos_directory()
     # Testing pre-build methods

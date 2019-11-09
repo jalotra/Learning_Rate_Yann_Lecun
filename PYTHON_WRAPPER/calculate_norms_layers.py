@@ -8,12 +8,11 @@ from import_data import get_data
 # FIRST LOAD THE DATA
 train_data = get_data()[0]
 test_data = get_data()[1]
-data = random_batch(train_data ,batchsize)
 
-# Create a model
-Model = softmax_model(data.X.cols, data.y.cols)
+
 # Now iterate through the model layers
-def iterate_over(model, iters, batchsize, data):
+def iterate_over(model, iters, batchsize):
+	# Create a model
 	for iter in range(iters):
 		calculate_G1(Model, data.X, data)
 		print_matrix(Model.G1)
@@ -27,4 +26,7 @@ def iterate_over(model, iters, batchsize, data):
 
 	
 if __name__ == "__main__":
+	batchsize = 128
+	data = random_batch(test_data ,batchsize)
+	Model = softmax_model(data.X.cols, data.y.cols)
 	iterate_over(Model, iters = 10, batchsize = 128)
