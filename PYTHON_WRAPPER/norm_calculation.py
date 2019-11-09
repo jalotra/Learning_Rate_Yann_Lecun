@@ -1,33 +1,25 @@
 from uwimg import *
-import time
-import sys
-
-# Model Definitions
-def softmax_model(inputs, outputs):
-    l = [make_layer(inputs, outputs, SOFTMAX)]
-    return make_model(l)
-
-def neural_net(inputs, outputs):
-    print (inputs)
-    l = [make_layer(inputs, 32, RELU),
-    		make_layer(32, 16,RELU),
-		#make_layer(16, 8, RELU),
-            make_layer(16, outputs, SOFTMAX)]
-    return make_model(l)
-
-def save_to_file(filepath, process_to_run):
-
-	orig_stdout = sys.stdout
-	with open('filepath', 'w') as f:
-		sys.stdout = f
-
-		process_to_run
-
-		sys.stdout = orig_stdout
-		f.close()
+from model_definitions import softmax_model, neural_net
 
 
-if __name__ == "__main__":
-	# save_to_file("results/mnist_Relu_Activation", neural_on_mnist_dataset())
-	pass
-	
+def get_data():
+	train = load_classification_data(c_char_p(train_file_path.encode('utf-8')), c_char_p(labels_path.encode('utf-8')), 1)
+	test  = load_classification_data(c_char_p(test_file_path.encode('utf-8')),c_char_p(labels_path.encode('utf-8')) , 1)
+
+	return (test, train)
+
+# This python file runs the algorithm on the model
+# def get_the_max_eigen_value(batch_size ):
+# 	train_data = get_data()[0]
+# 	model = softmax_model(train_data.X.cols, train_data.y.cols)
+# 	for i in range(50):
+# 		data b = random_batch(train_data, batch_size)
+# 		calculate_gradient1(model, b.X)
+# 		# Define the matrix psi
+# 		create_psi(b.X.cols, b.y.cols)
+# 		# Calculate gradient 2 by using psi 
+# 		calculate_gradient2(model, b.X, psi)
+# 		# Find the running avaerage
+# 		psi = running_average()
+
+
