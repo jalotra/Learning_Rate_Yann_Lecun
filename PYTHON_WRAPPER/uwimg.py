@@ -17,7 +17,7 @@ def c_array(ctype, values):
 
 
 #lib = CDLL("/home/pjreddie/documents/455/libuwimg.so", RTLD_GLOBAL)
-lib = CDLL(os.path.join(os.getcwd(), "libuwimg.so"), RTLD_GLOBAL) 
+lib = CDLL(os.path.join(os.getcwd(), "../libuwimg.so"), RTLD_GLOBAL) 
 
 
 
@@ -156,6 +156,11 @@ calculate_delta_norm.restype = c_double
 create_psi = lib.create_psi
 create_psi.argtypes = [c_int, c_int, c_double]
 create_psi.restype = MATRIX
+
+# Print the matrix
+print_matrix = lib.print_matrix
+print_matrix.argtypes = [MATRIX] 
+print_matrix.restype = None
 
 if __name__ == "__main__":
     # create_test_photos_directory()

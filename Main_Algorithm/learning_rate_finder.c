@@ -34,6 +34,7 @@ double calculate_norm(matrix x)
 // The reason for this vector to be random so that we dont have a vector which is orthogonal to the hessian matrix
 matrix create_psi(int rows, int cols, double s)
 {
+	// double s = 0.1;
 	return random_matrix(rows, cols, s);
 }
 

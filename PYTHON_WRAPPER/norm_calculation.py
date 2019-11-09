@@ -1,6 +1,9 @@
 from uwimg import *
-from model_definitions import softmax_model, neural_net
+from model_definition import softmax_model, neural_net
 
+train_file_path = "../mnist.train"
+labels_path = "mnist.labels"
+test_file_path = "../mnist.test"
 
 def get_data():
 	train = load_classification_data(c_char_p(train_file_path.encode('utf-8')), c_char_p(labels_path.encode('utf-8')), 1)
