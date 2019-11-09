@@ -149,3 +149,11 @@ int calculate_delta_norm(double norm1, matrix psi)
 
 
 // }
+
+int main()
+{
+	matrix psi = create_psi(3, 3, 0.1);
+	matrix G1 = create_psi(3, 3, 0.2);
+	matrix G2 = create_psi(3, 3, 0.3);
+	print_matrix(running_average(psi, G1, G2));
+}
