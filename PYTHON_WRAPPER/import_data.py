@@ -7,9 +7,9 @@ test_file_path = "mnist.test"
 
 def get_data():
 	train = load_classification_data(c_char_p(train_file_path.encode('utf-8')), c_char_p(labels_path.encode('utf-8')), 1)
-	test  = load_classification_data(c_char_p(test_file_path.encode('utf-8')),c_char_p(labels_path.encode('utf-8')) , 1)
+	# test  = load_classification_data(c_char_p(test_file_path.encode('utf-8')),c_char_p(labels_path.encode('utf-8')) , 1)
 
-	return (train, test)
+	return train
 
 # This python file runs the algorithm on the model
 # def get_the_max_eigen_value(batch_size ):

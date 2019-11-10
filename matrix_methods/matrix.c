@@ -77,12 +77,11 @@ void free_matrix(matrix m)
 
 matrix axpy_matrix(double a, matrix x, matrix y)
 {
-	// axpy stands for a*x + y
-	x = scale_matrix(a, x);
+	
 	int i,j;
 	// Check if the # rows and #cols of both matrices match up
-	assert(x.cols == y.cols);
-	assert(x.rows == y.rows);
+	// assert(x.cols == y.cols);
+	// assert(x.rows == y.rows);
 
 	// If true 
 	// Work starts
@@ -90,7 +89,7 @@ matrix axpy_matrix(double a, matrix x, matrix y)
 	{
 		for(j = 0; j < x.cols; j++)
 		{
-			x.data[i][j] += y.data[i][j]; 
+			x.data[i][j] = a*x.data[i][j] + y.data[i][j]; 
 		}
 	}
 
@@ -111,6 +110,22 @@ matrix scale_matrix(double a, matrix x)
 	return x;
 }
 
+matrix sub_matrix(matrix a, matrix b)
+{
+	assert(a.cols == b.cols);
+	assert(a.rows == b.rows);
+	int i,j;
+	for(i = 0; i < a.rows; i++)
+	{
+		for(j = 0; j < a.cols; j++)
+		{
+			a.data[i][j] -= b.data[i][j];
+		}
+	}
+
+	return a;
+
+}
 
 // SOME IMPORTANT MATRIX RELATED METHODS
 // 1. Matrix multiplication

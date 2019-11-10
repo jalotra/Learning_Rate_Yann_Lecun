@@ -22,6 +22,7 @@ matrix copy_matrix(matrix originalMatrix);
 void print_matrix(matrix originalMatrix);
 void free_matrix(matrix m);
 matrix axpy_matrix(double a, matrix x, matrix y);
+matrix sub_matrix(matrix a, matrix b);
 
 
 

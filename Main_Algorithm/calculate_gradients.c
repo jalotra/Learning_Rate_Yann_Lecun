@@ -28,13 +28,19 @@ const double const1_alpha = 0.01;
 const double const2_gamma = 0.01;
 
 // Calculates the G1 matrix
-void calculate_gradient1(model M, matrix X, data b) 
+void calculate_gradient1(model M, data d, int batchsize) 
 {
+	data b = random_batch(d, batchsize);
+	// printf("%s\n", "WORKINGS");
 	// Forward Propogate through the model
-	matrix output = forward_model(M, X);
+	matrix out  = forward_model(M, b.X);
+	// printf("ROWS : %d  COLS : %d", out.rows, out.cols);
+
 
 	// Lets calculate the loss at the last layer
-	matrix delta = Last_Layer_Loss_Cross_Entropy(b, output); // partial derivative of loss dL/dy
+	matrix delta = sub_matrix(b.y, out); // partial derivative of loss dL/dy
+
+	// print_matrix(delta);
 	// Now backpropogate Backwards
 	backward_model(M, delta);
 
@@ -42,23 +48,24 @@ void calculate_gradient1(model M, matrix X, data b)
 	// FUnction that saves the derivative wrt weights in dw 
 	// Matrix 
 	// My job is just to copy the dw matrix in the matrix G1
-	for(int i = 0; i < M.n; i++)
-	{
-		// Free the matrix G1 first
-		free_matrix((M.layers+i)->G1);
-		(M.layers+i)->G1 = (M.layers+i)->dw;
-	}
+	// for(int i = 0; i < M.n; i++)
+	// {
+	// 	// Free the matrix G1 first
+	// 	free_matrix((M.layers+i)->G1);
+	// 	(M.layers+i)->G1 = (M.layers+i)->dw;
+	// }
 
-	// Free the output matrxix
-	free_matrix(output);
+	// FREE THE OUTPUT MATRIX
+	free_matrix(out);
 
 	return;
 
 }
 
 //calculates the G2 matrix
-void calculate_gradient2(model M, matrix X, data b, matrix psi)
+void calculate_gradient2(model M, data d, matrix psi, int batchsize)
 {
+	data b = random_batch(d, batchsize);
 	// Now the task is first to update the weights 
 	// Of all the layers by some psi
 	for(int i = 0; i < M.n; i++)
@@ -75,7 +82,7 @@ void calculate_gradient2(model M, matrix X, data b, matrix psi)
 	}
 
 	// Now Forward Propogate 
-	matrix output = forward_model(M, X);
+	matrix output = forward_model(M, b.X);
 
 	// Calculate  the loss at the last layer
 	matrix delta = Last_Layer_Loss_Cross_Entropy(b, output); // partial derivative of loss dL/dy

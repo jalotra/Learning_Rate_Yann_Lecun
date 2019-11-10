@@ -42,7 +42,7 @@ typedef struct
 
 // Lets declare all the methods 
 void activate_matrix(matrix x, ACTIVATION a);
-void gradient_matrix(matrix m, matrix delta, ACTIVATION a);
+void gradient_matrix(matrix m, ACTIVATION a, matrix delta);
 matrix  forward_layer(layer *l, matrix in);
 matrix backward_layer(layer *l, matrix delta);
 layer make_layer(int input, int output, ACTIVATION activation);

@@ -13,8 +13,8 @@ matrix running_average(matrix, matrix, matrix);
 int calculate_delta_norm(double ,matrix);
 
 // NOW FOR calculate_gradients.c
-void calculate_gradient1(model, matrix, data);
-void calculate_gradient2(model, matrix, data, matrix);
+void calculate_gradient1(model, data, int);
+void calculate_gradient2(model, data, matrix, int);
 
 
 
