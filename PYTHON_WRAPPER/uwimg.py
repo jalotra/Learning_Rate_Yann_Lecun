@@ -129,11 +129,11 @@ make_layer.restype = LAYER
 
 # For the claculation of gradients
 calculate_G1 = lib.calculate_gradient1
-calculate_G1.argtypes = [MODEL, MATRIX, DATA]
+calculate_G1.argtypes = [MODEL, DATA, c_int]
 calculate_G1.restype = None
 
 calculate_G2 = lib.calculate_gradient2
-calculate_G2.argtypes = [MODEL, MATRIX, DATA, MATRIX]
+calculate_G2.argtypes = [MODEL, DATA, MATRIX. c_int]
 calculate_G2.restype = None
 
 # FInding the Runnig avaregae of Psi
